@@ -1,0 +1,16 @@
+.Users_wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.Users_wrapper a {
+    text-decoration: none;
+}
+
+.activePage {
+    font-weight: bold;
+}
+
+.button_follow {
+    width: 90px;
+}

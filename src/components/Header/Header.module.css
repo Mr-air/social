@@ -1,0 +1,11 @@
+.header {
+    grid-area: h;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: dodgerblue;
+  }
+
+  .header a {
+    text-decoration: none;
+  }

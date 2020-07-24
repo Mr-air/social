@@ -1,0 +1,30 @@
+.Dialog_Wrapper {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+}
+
+.Dialogs {
+    margin: 20px;
+}
+
+
+.Dialog {
+    margin: 10px;
+}
+
+.Dialog a {
+    text-decoration: none;
+    color: rgb(59, 7, 55);
+}
+
+.Dialog a.activeLink {
+    color: green;
+}
+
+.Messages {
+    margin: 20px;
+}
+
+.Messages .Message  {
+    margin: 10px;
+}

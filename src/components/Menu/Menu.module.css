@@ -1,0 +1,20 @@
+.nav{
+    grid-area: n;
+    background-color: green;
+    }
+
+  .nav_ul {
+    list-style: none;
+  }
+  .nav_ul a {
+    outline: none;
+   text-decoration: none;
+   color: red;
+  }
+
+  .nav_ul a.activeLink
+   {
+    color: yellow;
+  }
+
+   
