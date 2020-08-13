@@ -1,21 +1,36 @@
+import { SocialApi } from "../components/API/api";
+
 const Addpostactiontype = "AddPost";
 const Onchangeactiontype = "OnchangeText";
 const setusersprofile = 'setusersprofile';
+const setusersstatus = 'setusersstatus';
+const loaderPage = "LoaderPage";
+//const updatestatus = ' updatestatus';
 
-export const AddPostCreatAction = () => ({
+export const AddPost = () => ({
     type: Addpostactiontype
 })
 
-export const OnChangeTextAction = (text) => ({
+export const OnChangeText = (text) => ({
     type: Onchangeactiontype,
     text: text,
   }) 
 
-  export const SetUsersProfile = (profileid) => ({
+  export const SetUsersProfileAC = (profileid) => ({
     type: setusersprofile,
     profile: profileid,
   })
 
+  export const SetUsersStatuseAC = (status) => ({
+    type: setusersstatus,
+    status,
+  })
+
+
+  export const LoaderPageProfile = (loader) => ({
+    type:loaderPage,
+    loader
+  })
 
   const initian = {
  
@@ -24,7 +39,9 @@ export const OnChangeTextAction = (text) => ({
           {id:2, text:"post2"}
         ],
         ChangeText: '',
-        profile: null
+        profile: null,
+        isFetching: false,
+        status: ''
   
   }
 
@@ -54,7 +71,55 @@ export const OnChangeTextAction = (text) => ({
        ...state,
        profile: action.profile
      }
+     case setusersstatus: 
+     return {
+       ...state,
+       status: action.status
+     }
+     case loaderPage:
+      return {
+        ...state,
+        isFetching:action.loader
+      
+      }
       default: return state;
+    }
+  }
+
+
+  export const SetUsersProfile = (usersid) => {
+    return async(dispatch) => {
+      dispatch(LoaderPageProfile(true));
+      SocialApi.MeProfile(usersid).then(data=>{
+        dispatch(LoaderPageProfile(false));
+        dispatch(SetUsersProfileAC(data.data));
+      })
+    }
+  }
+
+  export const SetUsersStatus = (usersid) => {
+    return async(dispatch) => {
+     
+      dispatch(LoaderPageProfile(true));
+      SocialApi.getStatus(usersid).then(data=>{
+        dispatch(LoaderPageProfile(false));
+        dispatch(SetUsersStatuseAC(data.data));
+      })
+    }
+  }
+
+
+  export const UpdateUsersStatus = (status) => {
+  
+    return async(dispatch) => {   
+      dispatch(LoaderPageProfile(true));
+      SocialApi.MeStatus(status).then(data=>{
+       
+        if(data.data.resultCode===0) {
+        dispatch(LoaderPageProfile(false));
+        dispatch(SetUsersStatuseAC(status))
+        };
+      })
     }
   }
 

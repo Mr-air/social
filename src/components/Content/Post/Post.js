@@ -9,7 +9,7 @@ const Post = (props) => {
 
     let onChangeText = (e) => {
           
-        props.onChangeText(e.target.value)
+        props.OnChangeText(e.target.value)
     }
     
    let Postmap= props.Postmap.map(el=><Postother message={el.text} key={el.id}/>)
@@ -17,7 +17,7 @@ const Post = (props) => {
             <section>
                 <div>
                     <input onChange={onChangeText}  value={props.value} type="text"/>
-                    <button onClick={props.addPost}>ADD</button>
+                    <button onClick={props.AddPost}>ADD</button>
                 </div>
               {Postmap}
               

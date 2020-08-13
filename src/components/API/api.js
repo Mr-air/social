@@ -5,7 +5,7 @@ const apicreate = Axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true,
     headers: {
-        'API-KEY': 'ca530a00-1c9a-4421-adee-68657ee25bc6'}
+        'API-KEY': 'e7051e43-1170-4f40-b35d-d12bedceecda'}
 }) 
 
 
@@ -31,7 +31,25 @@ export const SocialApi = {
         return apicreate.get(`auth/me`).then(Response=> {
             return Response.data
         })
+    },
+    MeProfile(userid) {
+        return apicreate.get(`profile/${userid}`)
+    },
+    getStatus(userid) {
+        return apicreate.get(`/profile/status/${userid}`)
+    },
+    MeStatus(status) {
+        return apicreate.put(`/profile/status`,{status})
+    },
+    Login (email,password,rememberMe=false) {
+        return apicreate.post(`/auth/login`,{email,password,rememberMe})
+    },
+    OutLogin () {
+        return apicreate.delete(`/auth/login`)
     }
+
+    
+    
 
 }
 

@@ -1,25 +1,26 @@
 //import React from 'react';
 //import s from './Post.module.css';
 
-import { AddPostCreatAction, OnChangeTextAction } from '../../../redux/ContentPage-reducer';
+import { AddPost, OnChangeText } from '../../../redux/ContentPage-reducer';
 import Post from './Post';
 import { connect } from 'react-redux';
+import { getPostmapSel, getvaluePostSel } from '../../../redux/selector';
 
 
 
 let mapTostateProps = (state) => {
   
     return {
-        Postmap: state.contentpagereducer.Post ,
-        value: state.contentpagereducer.ChangeText
+        Postmap: getPostmapSel(state),
+        value: getvaluePostSel(state)
     }
 }
 
-let mapTodispatchProps = (dispatch) => {
-    return {
-        addPost: () => { dispatch(AddPostCreatAction())},
-        onChangeText: (e) => { dispatch(OnChangeTextAction(e))}
-    }
+let mapTodispatchProps =  {
+    
+        AddPost,
+        OnChangeText
+   
 }
 
 

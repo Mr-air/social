@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import Profile from './Profile';
-import { SetUsersProfile } from '../../../redux/ContentPage-reducer';
-import Axios from 'axios';
+import { SetUsersProfile, SetUsersStatus, UpdateUsersStatus } from '../../../redux/ContentPage-reducer';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { LoaderPage } from '../../../redux/UsersPage-reducer';
+import { compose } from 'redux';
+import { getProfileSel, getiduserSel, getisFetchingSel, getstatusSel } from '../../../redux/selector';
+
 
 
 
@@ -12,22 +13,17 @@ import { LoaderPage } from '../../../redux/UsersPage-reducer';
 class ProfileAPI extends Component {
 
     componentDidMount () {
-        
        let userid=this.props.match.params.userid
-       if(!userid) { userid=9478}
-
-
-        Axios.get(`https://social-network.samuraijs.com/api/1.0///profile/`+userid).then(Response => {
-        this.props.LoaderPage(false)
-        this.props.SetUsersProfile(Response.data);
-         }
-      
-        )
+    
+       if(!userid) { userid=this.props.iduser}
+       console.log(this.props.iduser)
+       this.props.SetUsersProfile(userid)
+       this.props.SetUsersStatus(userid)
     }
 
     render () {
         return (
-            <Profile {...this.props} profile={this.props.profile} />
+            <Profile {...this.props} profile={this.props.profile} status={this.props.status} updateStatus={this.props.UpdateUsersStatus} />
         )
     }
 }
@@ -36,9 +32,10 @@ class ProfileAPI extends Component {
 let mapTostateProps = (state) => {
     
     return {
-    profile: state.contentpagereducer.profile,
-    iduser: state.Authreducer.userid,
-    isFetching: state.userspagereducer.isFetching
+    profile: getProfileSel(state),
+    iduser: getiduserSel(state),
+    isFetching: getisFetchingSel(state),
+    status: getstatusSel(state)
     }
 }
 
@@ -46,10 +43,16 @@ let mapTostateProps = (state) => {
 
 let dispat ={
     SetUsersProfile,
-    LoaderPage
+    SetUsersStatus,
+    UpdateUsersStatus
 }
 
-const WithRouterContainer = withRouter(ProfileAPI);
 
-const Profilecontainer = connect(mapTostateProps,dispat)(WithRouterContainer)
+
+
+
+const Profilecontainer = compose(
+    connect(mapTostateProps,dispat),
+    withRouter)
+    (ProfileAPI)
 export default Profilecontainer;

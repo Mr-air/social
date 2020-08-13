@@ -1,11 +1,11 @@
 const OnchangeMessageactiontype = "OnchangeMessageText";
 const Sendmessageactiontype="Addmessage"
 
-export const AddMessageCreatAction = () => ({
+export const addMessage = () => ({
     type: Sendmessageactiontype
   })
 
-  export const OnChangeMessageTextAction = (text) => ({
+  export const onChangeMessage = (text) => ({
     type: OnchangeMessageactiontype,
     text: text,
   })

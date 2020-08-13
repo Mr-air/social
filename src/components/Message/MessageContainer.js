@@ -1,29 +1,37 @@
 //import React from 'react';
 
 
-import { AddMessageCreatAction, OnChangeMessageTextAction } from '../../redux/MessagePage-reducer';
+import {addMessage, onChangeMessage } from '../../redux/MessagePage-reducer';
 import Message from './Message';
 import { connect } from 'react-redux';
+import { RedirectHOC } from '../HOC/hoc';
+import { compose } from 'redux';
+import { getDialogDAtaSel, getmessageDAtaSel, getvalueSel, getisAuthSel } from '../../redux/selector';
 
 
   
 let mapTostateProps = (state) => {
   
     return {
-        DialogDAta: state.messagepagereducer.DialogDAta ,
-        messageDAta: state.messagepagereducer.messageDAta ,
-        value: state.messagepagereducer.MesssageText
-    }
-}
-
-let mapTodispatchProps = (dispatch) => {
-    return {
-        addMessage: () => {dispatch(AddMessageCreatAction())},
-        onChangeText: (e) => { dispatch(OnChangeMessageTextAction(e))}
+        DialogDAta: getDialogDAtaSel(state) ,
+        messageDAta: getmessageDAtaSel(state) ,
+        value: getvalueSel(state),
+        isAuth: getisAuthSel(state)
     }
 }
 
 
-const MessageContainer = connect(mapTostateProps,mapTodispatchProps)(Message);
+
+const dispat = {
+    addMessage,
+    onChangeMessage
+}
+
+
+const MessageContainer = compose(
+    RedirectHOC,
+    connect(mapTostateProps,dispat),
+    
+)(Message)
 
 export default MessageContainer

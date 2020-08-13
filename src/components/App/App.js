@@ -1,34 +1,55 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import s from './App.module.css';
 
 import Menu from '../Menu/Menu';
 import Content from '../Content/Content';
 
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import MessageContainer from '../Message/MessageContainer';
 import Userscontainer from '../Users/Userscontainer';
 import HeaderContainer from '../Header/HeaderContainer';
+import Login from '../Login/login';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import {  InitianSuccses } from '../../redux/app-reducer';
+import Loader from '../Loader/loader';
+import { SetUserData } from '../../redux/auth-reducer';
 
 
 
-function App(props) {
-  
-  return (
+class App extends Component { 
+  componentDidMount() {
+    this.props.InitianSuccses();
+  }
+  render() {
+    // if(!this.props.isAuth) {
+    //   return <Loader/>
+    // }
+    return (
     
-    <div className={s.App_wrapper}>
-    <HeaderContainer/>
-    <Menu/>
+      <div className={s.App_wrapper}>
+      <HeaderContainer/>
+      <Menu/>
+      
+      <main className={s.main}>
+       <Route path="/profile/:userid?" render={()=><Content store={this.props.store}/>} />
+       <Route path="/message" render={()=> <MessageContainer store={this.props.store} />}/>
+       <Route path="/users" render={()=> <Userscontainer store={this.props.store} />}/>
+       <Route path="/login" render={()=> <Login store={this.props.store} />}/>
+      </main>
+      </div>
+    );
+  }
+}
+
+let mapTostateProps = (state) => {
     
-    <main className={s.main}>
-     <Route path="/profile/:userid?" render={()=><Content store={props.store}/>} />
-    <Route path="/message" render={()=> <MessageContainer store={props.store} />}/>
-     <Route path="/users" render={()=> <Userscontainer store={props.store} />}/>
-    </main>
-    </div>
-  );
+  return {
+    initian: state.Appreduscer.innitian,
+    isAuth: state.Authreducer.isAuth
+  }
 }
 
 
-
-export default App;
+export default compose(connect(mapTostateProps,{InitianSuccses,SetUserData}),withRouter)(App);

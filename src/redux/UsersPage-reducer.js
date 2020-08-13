@@ -1,3 +1,5 @@
+import { SocialApi } from "../components/API/api";
+
 const follow = "Follow";
 const unFollow = "UnFollow";
 const setUsers = "Setusers";
@@ -28,9 +30,9 @@ export const UnFollow = (userid) => ({
     countTotal
   })
 
-  export const ActivePage = () => ({
+  export const ActivePage = (active) => ({
     type: activePage,
-    //activepage
+    active
   })
 
   export const LoaderPage = (loader) => ({
@@ -49,7 +51,7 @@ export const UnFollow = (userid) => ({
  
          users: [],
          countTotal: 0,
-         PageSize:4,
+         PageSize:10,
          Pageactive:1,
          isFetching: false,
          isButtonClick: []
@@ -92,7 +94,7 @@ export const UnFollow = (userid) => ({
     case activePage:
       return {
         ...state,
-        Pageactive:state.Pageactive + 4
+        Pageactive:action.active
       
       }
       case userscountTotal:
@@ -118,6 +120,45 @@ export const UnFollow = (userid) => ({
     default: return state;
     
   }
+  }
+
+/////////// thunk функция  //////////////////////////
+  export const getUsers = (Pageactive,Pagesize) => {
+    return async(dispatch) => {
+      dispatch(LoaderPage(true))
+      dispatch(ActivePage(Pageactive))
+      SocialApi.getUsers(Pageactive,Pagesize).then(data => {
+      dispatch(LoaderPage(false))
+      dispatch(SetUsers(data.items));
+      dispatch(CountUsers(data.totalCount)); })
+    }
+  }
+
+  export const FollowUsers = (id) => {
+    return async(dispatch) => {
+     dispatch(ButtonClickUsers(true,id))
+        SocialApi.UsersUNfollow(id).then(data =>       {
+            if(data.resultCode===0) {
+              dispatch(UnFollow(id))}
+              dispatch(ButtonClickUsers(false,id))
+           }
+              
+              )
+
+    }
+  }
+
+  export const UnFollowUsers = (id) => {
+    return async(dispatch) => {
+      dispatch(ButtonClickUsers(true,id))
+      SocialApi.Usersfollow(id).then(data =>       {
+          if(data.resultCode===0) {
+            dispatch(Follow(id)) }
+            dispatch(ButtonClickUsers(false,id))
+         }
+            
+            )
+    }
   }
 
   export default UsersPagereducer;

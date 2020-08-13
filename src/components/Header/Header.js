@@ -11,7 +11,7 @@ const Header = (props) => {
             <NavLink to="./profile">
                <img alt="" src={Logo}></img>
             </NavLink> 
-            {props.isAuth ? props.login:<NavLink to="./login"></NavLink>}
+            {props.isAuth ? props.login:<NavLink to="./login">Login</NavLink>}
         </header>
     );
 }

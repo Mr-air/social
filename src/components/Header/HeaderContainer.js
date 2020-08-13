@@ -1,26 +1,15 @@
 import React, { Component } from 'react';
 import Header from './Header';
-//import Axios from 'axios';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { SetUserData } from '../../redux/auth-reducer';
-import { SocialApi } from '../API/api';
+import { getisAuthSel, getiduserSel,getemailAuthmapSel,getloginAuthSel } from '../../redux/selector';
+
 
 
 class HeaderAPI extends Component {
     
-    componentDidMount() {
-    
-        SocialApi.getMeProfile().then(data => {
-           if(data.resultCode===0) {
-               let {id,login,email}=data.data
-                this.props.SetUserData(id,login,email)
-                return null;
-            }
-            this.props.SetUserData(1079,'free','fly@mail.ru')
-        })
-               
-    }
+   
     render () {
         return (
          <Header {...this.props}/>
@@ -32,14 +21,12 @@ class HeaderAPI extends Component {
 let mapTostateProps = (state) => {
   
     return {
-     userid: state.Authreducer.userid,
-     email: state.Authreducer.email,
-     login: state.Authreducer.login,
-     isAuth: state.Authreducer.isAuth
+     userid: getiduserSel(state),
+     email: getemailAuthmapSel(state),
+     login: getloginAuthSel(state),
+     isAuth: getisAuthSel(state)
     }
 }
-
-
 
 
 let dispat =  {

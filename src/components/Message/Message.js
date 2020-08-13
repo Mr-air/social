@@ -7,19 +7,22 @@ import DialogItem from './Dialogitem/DialogItem';
 
 
 
+
 const Message = (props) => {
 
 
-
+console.log(props)
    
     let onChangeText = (e) => {
-        props.onChangeText(e.target.value);
+        props.onChangeMessage(e.target.value);
     }
 
     let dialogsmaps =props.DialogDAta.map( diialog => <DialogItem id={diialog.id} name={diialog.name} key={diialog.id}/> );
     let messagemaps =props.messageDAta.map( diialog => <MessageItem id={diialog.id} message={diialog.message} key={diialog.id} /> );
+      
 
     return (
+        
     <div className={s.Dialog_Wrapper}>
         <div className={s.Dialogs}>
             {dialogsmaps}

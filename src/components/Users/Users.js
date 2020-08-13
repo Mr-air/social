@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import s from './Users.module.css';
 import { NavLink } from 'react-router-dom';
 
@@ -7,18 +7,25 @@ import { NavLink } from 'react-router-dom';
 
 
 const Users = (props) => {
-    console.log(props.userss)
 let pageCount= Math.ceil(props.countTotal/props.Pagesize)
 
 let page = [];
 for (let i=1;i<=pageCount;i++) {
     page.push(i)
 }
+const portionCount=Math.ceil(pageCount/props.Pagesize)
+const[pagenumber ,setpagenumber] = useState(1);
+let left=(pagenumber-1)*props.Pagesize+1;
+let right=pagenumber*props.Pagesize;
 return ( 
     <>
-    {/* <div>
-{page.map(p => {return (<span key={p} className={props.Pageactive===p&&s.activePage} onClick={()=>{props.onChangeActivepage(p)}}>{p}</span>)})}
-    </div> */}
+    <div>
+        {pagenumber>1 && <button onClick={()=>{setpagenumber(pagenumber-1)}}>Prev</button>}
+{page.filter(p=>p>=left && p<=right).map(p => {return (<span key={p} className={props.Pageactive===p&&s.activePage} onClick={()=>{props.onChangeActivepage(p)}}>{p}</span>)})}
+       {portionCount>pagenumber && <button onClick={()=>{setpagenumber(pagenumber+1)}}>Next</button>}
+    
+    </div>
+    
  {props.userss.map ( users => 
      
      
@@ -34,7 +41,7 @@ return (
                   
      </div>    
  )}
-      <button onClick={()=>props.onChangeActivepage()}>sdsfdsf</button>
+      {/* <button onClick={()=>props.onChangeActivepage()}>sdsfdsf</button> */}
       
      </>
 )
