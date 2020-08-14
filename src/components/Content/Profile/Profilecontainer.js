@@ -1,25 +1,28 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Profile from './Profile';
 import { SetUsersProfile, SetUsersStatus, UpdateUsersStatus } from '../../../redux/ContentPage-reducer';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { getProfileSel, getiduserSel, getisFetchingSel, getstatusSel } from '../../../redux/selector';
+import { getProfileSel, getisFetchingSel, getstatusSel } from '../../../redux/selector';
 
 
 
 
 
-class ProfileAPI extends Component {
+class ProfileAPI extends PureComponent {
 
     componentDidMount () {
        let userid=this.props.match.params.userid
-    
        if(!userid) { userid=this.props.iduser}
-       console.log(this.props.iduser)
        this.props.SetUsersProfile(userid)
        this.props.SetUsersStatus(userid)
     }
+
+  
+
+   
+
 
     render () {
         return (
@@ -33,7 +36,7 @@ let mapTostateProps = (state) => {
     
     return {
     profile: getProfileSel(state),
-    iduser: getiduserSel(state),
+    
     isFetching: getisFetchingSel(state),
     status: getstatusSel(state)
     }

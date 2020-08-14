@@ -15,25 +15,25 @@ import { connect } from 'react-redux';
 import {  InitianSuccses } from '../../redux/app-reducer';
 import Loader from '../Loader/loader';
 import { SetUserData } from '../../redux/auth-reducer';
+import { getiduserSel } from '../../redux/selector';
 
 
 
 class App extends Component { 
   componentDidMount() {
-    this.props.InitianSuccses();
+   this.props.InitianSuccses();
   }
   render() {
-    // if(!this.props.isAuth) {
-    //   return <Loader/>
-    // }
-    return (
-    
+
+    if(this.props.iduser===null) return <Loader/>
+    return ( 
       <div className={s.App_wrapper}>
       <HeaderContainer/>
       <Menu/>
       
       <main className={s.main}>
-       <Route path="/profile/:userid?" render={()=><Content store={this.props.store}/>} />
+        
+       <Route path="/profile/:userid?" render={()=><Content store={this.props.store} iduser={this.props.iduser}/>} />
        <Route path="/message" render={()=> <MessageContainer store={this.props.store} />}/>
        <Route path="/users" render={()=> <Userscontainer store={this.props.store} />}/>
        <Route path="/login" render={()=> <Login store={this.props.store} />}/>
@@ -43,11 +43,13 @@ class App extends Component {
   }
 }
 
+
+
 let mapTostateProps = (state) => {
     
   return {
-    initian: state.Appreduscer.innitian,
-    isAuth: state.Authreducer.isAuth
+    innitian: state.Appreduscer.innitian,
+    iduser: getiduserSel(state),
   }
 }
 

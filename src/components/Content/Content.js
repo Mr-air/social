@@ -8,12 +8,11 @@ import Profilecontainer from './Profile/Profilecontainer';
 
 const Content = (props) => {
 
-    
   
     return (
             <div>
             <img alt="" className="main-img" width="100%" height="200px" src="https://pharmvestnik.ru/apps/fv/assets/files/content/news/678/67807/front.jpg"></img>
-            <Profilecontainer/>
+            <Profilecontainer iduser={props.iduser}/>
             <PostContainer/>
             </div>
          

@@ -5,8 +5,9 @@ const initianusers = "initianusers";
 
 
 
-export const InitianSuccsesAC = () => ({
-    type: initianusers}) 
+export const InitianSuccsesAC = () => (
+    { type: initianusers }
+  ) 
 
 
 
@@ -16,7 +17,7 @@ export const InitianSuccsesAC = () => ({
   }
 
   const Appreducer = (state=initian,action) => {
-      switch(action.type) {
+    switch(action.type) {
     case initianusers: 
           return {
             ...state,
@@ -30,7 +31,7 @@ export const InitianSuccsesAC = () => ({
   export const InitianSuccses = () =>(dispatch) => {
        let promice = dispatch(SetUserData())
         Promise.all([promice]).then(()=>{dispatch(InitianSuccsesAC())})  
-           
+          return null 
     }
   
 
